@@ -11,7 +11,7 @@ router.get("/", verifyToken, async (req, res) => {
     res.json(result.recordset);
   } catch (error) {
     res.status(500).json({ message: "Database query error", error: error.message });
-  }
+  }  
 });
 
 export default router;
