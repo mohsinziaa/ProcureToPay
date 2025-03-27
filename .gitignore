@@ -9,9 +9,6 @@ server/logs/
 debug.log
 
 # Ignore environment files
-client/.env
 server/.env
-
+client/.next/
 # Ignore system files
-.DS_Store
-Thumbs.db
