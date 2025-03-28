@@ -1,97 +1,101 @@
 'use client';
 import { useLogin } from '../hooks/useLogin';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('12345');
+  const router = useRouter();
+  const [credentials, setCredentials] = useState({
+    username: 'admin',
+    password: '12345'
+  });
   const { token, error, loading, handleLogin } = useLogin();
+
+  // Redirect to orders page if token exists
+  useEffect(() => {
+    const storedToken = localStorage.getItem('authToken');
+    if (storedToken) {
+      router.push('/orders');
+    }
+  }, [router]);
+
+  // Handle successful login
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem('authToken', token);
+      router.push('/orders');
+    }
+  }, [token, router]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    handleLogin(username, password);
+    handleLogin(credentials.username, credentials.password);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCredentials(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   return (
-    <main style={{
-      maxWidth: '400px',
-      margin: '2rem auto',
-      padding: '2rem',
-      border: '1px solid #ddd',
-      borderRadius: '8px'
-    }}>
-      <h1 style={{ marginBottom: '1rem' }}>Login</h1>
+    <div className="login-container">
+      <h1 className="login-title">Login</h1>
       
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem' }}>Username</label>
+      <form onSubmit={handleSubmit} className="login-form" noValidate>
+        <div className="form-group">
+          <label htmlFor="username" className="form-label">Username</label>
           <input
+            id="username"
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            style={{ width: '100%', padding: '0.5rem' }}
+            name="username"
+            className="form-input"
+            value={credentials.username}
+            onChange={handleInputChange}
+            placeholder="Enter username"
             required
+            disabled={loading}
+            autoComplete="username"
           />
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem' }}>Password</label>
+        <div className="form-group">
+          <label htmlFor="password" className="form-label">Password</label>
           <input
+            id="password"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: '100%', padding: '0.5rem' }}
+            name="password"
+            className="form-input"
+            value={credentials.password}
+            onChange={handleInputChange}
+            placeholder="Enter password"
             required
+            disabled={loading}
+            autoComplete="current-password"
           />
         </div>
 
         <button
           type="submit"
+          className="submit-btn"
           disabled={loading}
-          style={{
-            width: '100%',
-            padding: '0.75rem',
-            background: loading ? '#ccc' : '#2563eb',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
+          aria-busy={loading}
         >
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? (
+            <span className="loading-indicator">Logging in...</span>
+          ) : (
+            'Login'
+          )}
         </button>
       </form>
 
       {error && (
-        <p style={{ 
-          marginTop: '1rem', 
-          color: 'red',
-          padding: '0.5rem',
-          background: '#fee2e2',
-          borderRadius: '4px'
-        }}>
-          Error: {error}
-        </p>
-      )}
-
-      {token && (
-        <div style={{ 
-          marginTop: '2rem',
-          padding: '1rem',
-          background: '#f0fdf4',
-          border: '1px solid #bbf7d0',
-          borderRadius: '4px',
-          overflowWrap: 'break-word'
-        }}>
-          <h3 style={{ marginBottom: '0.5rem' }}>Login Successful!</h3>
-          <pre style={{ 
-            whiteSpace: 'pre-wrap',
-            fontSize: '0.85rem'
-          }}>
-            Token: {token}
-          </pre>
+        <div className="error-message" role="alert">
+          <strong>Error:</strong> {error}
         </div>
       )}
-    </main>
+    </div>
   );
 }
