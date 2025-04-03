@@ -1,5 +1,5 @@
 'use client';
-import { useOrders } from '../hooks/useOrders';
+import { useOrders } from '../../hooks/useOrders';
 
 export default function OrdersList({ token }: { token: string | null }) {
   const { orders, loading, error, refetch } = useOrders(token);

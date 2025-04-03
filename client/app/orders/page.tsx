@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import OrdersList from '../../components/OrdersList';
+import OrdersList from '../components/OrdersList';
 
 export default function OrdersPage() {
   const router = useRouter();
