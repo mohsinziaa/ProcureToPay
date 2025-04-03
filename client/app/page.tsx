@@ -78,14 +78,15 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      {/* Login Container with animations */}
-      <motion.div
+
+<div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-gray-50 to-blue-100 p-4">
+    <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 w-full max-w-md"
       >
+        
         {/* Logo with animation */}
         <motion.div
           initial={{ scale: 0.9 }}
