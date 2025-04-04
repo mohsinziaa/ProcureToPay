@@ -13,7 +13,7 @@ router.post("/login", (req, res) => {
     const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: "1h" });
     res.json({ token });
   } else {
-    res.status(401).json({ message: "Invalid credentials" });
+    res.status(401).json({ message: "Invalid credentialss" });
   }
 });
 

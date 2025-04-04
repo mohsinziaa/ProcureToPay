@@ -1,7 +1,6 @@
 'use client';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import OrdersList from '../components/OrdersList';
 
 export default function OrdersPage() {
   const router = useRouter();
@@ -28,7 +27,6 @@ export default function OrdersPage() {
       >
         ← Back to Login
       </button>
-      <OrdersList token={token} />
     </main>
   );
 }
