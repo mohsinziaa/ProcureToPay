@@ -1,5 +1,0 @@
-PO Payment Progress.
-25: Folders setup
-26: DAL & API's setup
-27: Middleware set
-28: Server side JWT auth
